@@ -48,19 +48,25 @@
 			            <thead>
 			                <tr>
 			                    <th width="3%">NO</th>
-			                    <th width="5%">ID</th>
-			                    <th width="70%">NAMA RUANGAN</th>
-			                    <th width="7%">AKSI</th>
+			                    <th width="3%">ID</th>
+                          <th width="">KODE OBAT</th>
+                          <th width="">NAMA OBAT</th>
+			                    <th width="">ID DISTRIBUTOR</th>
+                          <th width="">ID GOL OBAT</th>
+                          <th width="9%">AKSI</th>
 			                </tr>
 			            </thead>
 			            <tbody>
 			            </tbody>
 			            <tfoot>
 			                <tr>
-			                    <th>NO</th>
-			                    <th>ID</th>
-			                    <th>NAMA RUANGAN</th>
-			                    <th>AKSI</th>
+                        <th width="3%">NO</th>
+                        <th width="3%">ID</th>
+                        <th width="">KODE OBAT</th>
+                        <th width="">NAMA OBAT</th>
+                        <th width="">ID DISTRIBUTOR</th>
+                        <th width="">ID GOL OBAT</th>
+                        <th width="9%">AKSI</th>
 			                </tr>
 			            </tfoot>
 			        </table>
@@ -91,7 +97,7 @@
 	        "order": [], //Initial no order.
 	        // Load data for the table's content from an Ajax source
 	        "ajax": {
-	            "url": "<?php echo site_url('kelola_ruangan/tampil_ruangan')?>",
+	            "url": "<?php echo site_url('kelola_obat/tampil_obat')?>",
 	            "type": "POST"
 	        },
 
@@ -99,7 +105,7 @@
 	        "columnDefs": [
 		        {
 
-		            "targets": [ 0, 3], //first and four column / numbering column
+		            "targets": [ 0, 6], //first and four column / numbering column
 		            "orderable": false, //set not orderable
 		        },
 		        {
@@ -108,7 +114,7 @@
 		        },
 		        {
 
-		            "targets": [ 1 ], //two column / numbering column
+		            "targets": [ 1, 2], //two column / numbering column
 		            "visible": false, //set visible
 		        },
 	        ],
@@ -126,7 +132,7 @@
 		$('.form-group').removeClass('has-error'); // clear error class
 		$('.help-block').empty(); // clear error string
 		$('#modal_form').modal('show'); // show bootstrap modal
-		$('.modal-title').text('Tambah Ruangan'); // Set Title to Bootstrap modal title
+		$('.modal-title').text('Tambah obat'); // Set Title to Bootstrap modal title
 	}
 
 	function reload_table()
@@ -134,7 +140,7 @@
 	    table.ajax.reload(null,false); //reload datatable ajax
 	}
 
-	function edit(id_ruangan)
+	function edit(id_obat)
 	{
 	    save_method = 'update';
 	    $('#form')[0].reset(); // reset form on modals
@@ -143,16 +149,19 @@
 
 	    //Ajax Load data from ajax
 	    $.ajax({
-	        url : "<?php echo site_url('kelola_ruangan/edit_ruangan')?>/" + id_ruangan,
+	        url : "<?php echo site_url('kelola_obat/edit_obat')?>/" + id_obat,
 	        type: "GET",
 	        dataType: "JSON",
 	        success: function(data)
 	        {
 
-	            $('[name="id_ruangan"]').val(data.id_ruangan);
-	            $('[name="ruangan"]').val(data.ruangan);
+	            $('[name="id_obat"]').val(data.id_obat);
+              $('[name="kode_obat"]').val(data.kode_obat);
+              $('[name="nama_obat"]').val(data.nama_obat);
+              $('[name="id_distributor"]').val(data.id_distributor);
+              $('[name="id_gol_obat"]').val(data.id_gol_obat);
 	            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-	            $('.modal-title').text('Edit Ruangan'); // Set title to Bootstrap modal title
+	            $('.modal-title').text('Edit Obat'); // Set title to Bootstrap modal title
 
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
@@ -170,9 +179,9 @@
 	    var url;
 
 	    if(save_method == 'add') {
-	        url = "<?php echo site_url('kelola_ruangan/tambah_save')?>";
+	        url = "<?php echo site_url('kelola_obat/tambah_save')?>";
 	    } else {
-	        url = "<?php echo site_url('kelola_ruangan/edit_save')?>";
+	        url = "<?php echo site_url('kelola_obat/edit_save')?>";
 	    }
 
 	    // ajax adding data to database
@@ -219,13 +228,13 @@
 	    });
 	}
 
-	function hapus(id_ruangan)
+	function hapus(id_obat)
 	{
 	    if(confirm('Anda Yakin Menghapus Data Ini?'))
 	    {
 	        // ajax delete data to database
 	        $.ajax({
-	            url : "<?php echo site_url('kelola_ruangan/hapus')?>/"+id_ruangan,
+	            url : "<?php echo site_url('kelola_obat/hapus')?>/"+id_obat,
 	            type: "POST",
 	            dataType: "JSON",
 	            success: function(data)
@@ -262,12 +271,33 @@
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
-                    <input type="hidden" value="" name="id_ruangan"/>
+                    <input type="hidden" value="" name="id_obat"/>
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Nama Ruangan</label>
+                            <label class="control-label col-md-4">Kode Obat</label>
                             <div class="col-md-6">
-                                <input name="ruangan" placeholder="Nama Ruangan..." class="form-control" type="text">
+                                <input name="kode_obat" placeholder="Kode Obat..." class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Nama Obat</label>
+                            <div class="col-md-6">
+                                <input name="nama_obat" placeholder="Nama Obat..." class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">ID Distributor</label>
+                            <div class="col-md-6">
+                                <input name="id_distributor" placeholder="PT XXX" class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Golongan Obat</label>
+                            <div class="col-md-6">
+                                <input name="id_gol_obat" placeholder="Golongan Obat..." class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>

@@ -48,9 +48,11 @@
 			            <thead>
 			                <tr>
 			                    <th width="3%">NO</th>
-			                    <th width="5%">ID</th>
-			                    <th width="70%">NAMA RUANGAN</th>
-			                    <th width="7%">AKSI</th>
+			                    <th width="3%">ID</th>
+                          <th width="">NAMA DISTRIBUTOR</th>
+                          <th width="">KONTAK</th>
+			                    <th width="">ALAMAT</th>
+                          <th width="9%">AKSI</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -59,7 +61,9 @@
 			                <tr>
 			                    <th>NO</th>
 			                    <th>ID</th>
-			                    <th>NAMA RUANGAN</th>
+			                    <th>NAMA DISTRIBUTOR</th>
+                          <th>KONTAK</th>
+                          <th>ALAMAT</th>
 			                    <th>AKSI</th>
 			                </tr>
 			            </tfoot>
@@ -91,7 +95,7 @@
 	        "order": [], //Initial no order.
 	        // Load data for the table's content from an Ajax source
 	        "ajax": {
-	            "url": "<?php echo site_url('kelola_ruangan/tampil_ruangan')?>",
+	            "url": "<?php echo site_url('kelola_distributor/tampil_distributor')?>",
 	            "type": "POST"
 	        },
 
@@ -99,7 +103,7 @@
 	        "columnDefs": [
 		        {
 
-		            "targets": [ 0, 3], //first and four column / numbering column
+		            "targets": [ 0, 5], //first and four column / numbering column
 		            "orderable": false, //set not orderable
 		        },
 		        {
@@ -126,7 +130,7 @@
 		$('.form-group').removeClass('has-error'); // clear error class
 		$('.help-block').empty(); // clear error string
 		$('#modal_form').modal('show'); // show bootstrap modal
-		$('.modal-title').text('Tambah Ruangan'); // Set Title to Bootstrap modal title
+		$('.modal-title').text('Tambah Distributor'); // Set Title to Bootstrap modal title
 	}
 
 	function reload_table()
@@ -134,7 +138,7 @@
 	    table.ajax.reload(null,false); //reload datatable ajax
 	}
 
-	function edit(id_ruangan)
+	function edit(id_distributor)
 	{
 	    save_method = 'update';
 	    $('#form')[0].reset(); // reset form on modals
@@ -143,16 +147,18 @@
 
 	    //Ajax Load data from ajax
 	    $.ajax({
-	        url : "<?php echo site_url('kelola_ruangan/edit_ruangan')?>/" + id_ruangan,
+	        url : "<?php echo site_url('kelola_distributor/edit_distributor')?>/" + id_distributor,
 	        type: "GET",
 	        dataType: "JSON",
 	        success: function(data)
 	        {
 
-	            $('[name="id_ruangan"]').val(data.id_ruangan);
-	            $('[name="ruangan"]').val(data.ruangan);
+	            $('[name="id_distributor"]').val(data.id_distributor);
+	            $('[name="nama_distributor"]').val(data.nama_distributor);
+              $('[name="kontak"]').val(data.kontak);
+              $('[name="alamat"]').val(data.alamat);
 	            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-	            $('.modal-title').text('Edit Ruangan'); // Set title to Bootstrap modal title
+	            $('.modal-title').text('Edit Distributor'); // Set title to Bootstrap modal title
 
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
@@ -170,9 +176,9 @@
 	    var url;
 
 	    if(save_method == 'add') {
-	        url = "<?php echo site_url('kelola_ruangan/tambah_save')?>";
+	        url = "<?php echo site_url('kelola_distributor/tambah_save')?>";
 	    } else {
-	        url = "<?php echo site_url('kelola_ruangan/edit_save')?>";
+	        url = "<?php echo site_url('kelola_distributor/edit_save')?>";
 	    }
 
 	    // ajax adding data to database
@@ -219,13 +225,13 @@
 	    });
 	}
 
-	function hapus(id_ruangan)
+	function hapus(id_distributor)
 	{
 	    if(confirm('Anda Yakin Menghapus Data Ini?'))
 	    {
 	        // ajax delete data to database
 	        $.ajax({
-	            url : "<?php echo site_url('kelola_ruangan/hapus')?>/"+id_ruangan,
+	            url : "<?php echo site_url('kelola_distributor/hapus')?>/"+id_distributor,
 	            type: "POST",
 	            dataType: "JSON",
 	            success: function(data)
@@ -262,12 +268,26 @@
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
-                    <input type="hidden" value="" name="id_ruangan"/>
+                    <input type="hidden" value="" name="id_distributor"/>
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Nama Ruangan</label>
+                            <label class="control-label col-md-4">Nama Distributor</label>
                             <div class="col-md-6">
-                                <input name="ruangan" placeholder="Nama Ruangan..." class="form-control" type="text">
+                                <input name="nama_distributor" placeholder="Nama Distributor..." class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">No Kontak</label>
+                            <div class="col-md-6">
+                                <input name="kontak" placeholder="Cth. 083 824 xxx xxx" class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Alamat</label>
+                            <div class="col-md-6">
+                                <textarea name="alamat" class="form-control"></textarea>
                                 <span class="help-block"></span>
                             </div>
                         </div>

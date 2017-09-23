@@ -53,6 +53,10 @@ $route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
 $route['ruangan'] = 'kelola_ruangan/tampil';
+$route['obat'] = 'Kelola_obat/tampil';
+$route['dokter'] = 'Kelola_dokter/tampil';
+$route['pasien'] = 'Kelola_pasien/tampil';
+$route['distributor'] = 'Kelola_distributor/tampil';
 
 /*
 | -------------------------------------------------------------------------
@@ -74,5 +78,3 @@ $route['api/jenis/(:num)']['get'] = 'api/jenis_obat/index/id/$1';
 $route['api/jenis']['post'] = 'api/jenis_obat/index';
 $route['api/jenis/(:num)']['put'] = 'api/jenis_obat/index/id/$1';
 $route['api/jenis/(:num)']['delete'] = 'api/jenis_obat/index/id/$1';
-
-

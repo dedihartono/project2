@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Kelola_distributor extends CI_Controller {
+class Kelola_pasien extends CI_Controller {
 
 	public function __construct()
 	{
@@ -9,7 +9,7 @@ class Kelola_distributor extends CI_Controller {
 
 		//load model and add alias
 		//check session logged_in
-			$this->load->model(['m_distributor', 'm_pengguna']);
+			$this->load->model(['m_pasien', 'm_pengguna']);
 			$this->m_pengguna->check_session();
 
 	}
@@ -17,45 +17,47 @@ class Kelola_distributor extends CI_Controller {
 	public function tampil()
 	{
 		$data = [
-			'title' 		=> 'Kelola Distributor',
-			'titlebox' 		=> 'Data Distributor',
-			'breadcrumb01' 	=> 'Kelola Distributor',
-			'breadcrumb02' 	=> 	anchor('distributor', 'Tampil Distributor'),
-
-			'konten'		=> 'distributor/distributor',
+			'title' 		=> 'Kelola Pasien',
+			'titlebox' 		=> 'Data Pasien',
+			'breadcrumb01' 	=> 'Kelola Pasien',
+			'breadcrumb02' 	=> 	anchor('pasien', 'Tampil Pasien'),
+			'gol_darah' => $this->m_pasien->get_gol_darah(),
+			'konten'		=> 'pasien/pasien',
 		];
 
 		$this->load->view('template_admin', $data);
 	}
 
-	public function tampil_distributor()
+	public function tampil_pasien()
 	{
 
-		$list = $this->m_distributor->get_datatables();
+		$list = $this->m_pasien->get_datatables();
 
 		$data = array();
 
 		$no = $_POST['start'];
 
-		foreach ($list as $distributor) {
+		foreach ($list as $pasien) {
 
 			$no++;
 
 			$row = array();
 			$row[] = $no;
-			$row[] = $distributor->id_distributor;
-			$row[] = $distributor->nama_distributor;
-			$row[] = $distributor->kontak;
-			$row[] = $distributor->alamat;
+			$row[] = $pasien->id_pasien;
+			$row[] = $pasien->nama_pasien;
+			$row[] = $pasien->jenis_kelamin;
+			$row[] = $pasien->alamat;
+			$row[] = $pasien->tgl_lahir;
+			$row[] = $pasien->id_gol_darah;
 
 			$row[] =
 					'<a class="btn btn-sm btn-success" href="javascript:void(0)"
-						title="Ubah" onclick="edit('."'".$distributor->id_distributor."'".')">
+						title="Ubah" onclick="edit('."'".$pasien->id_pasien."'".')">
 						<i class="glyphicon glyphicon-pencil"></i>
 					</a>
 
 				  	<a class="btn btn-sm btn-danger" href="javascript:void(0)"
-				  		title="Hapus" onclick="hapus('."'".$distributor->id_distributor."'".')">
+				  		title="Hapus" onclick="hapus('."'".$pasien->id_pasien."'".')">
 				  		<i class="glyphicon glyphicon-trash"></i>
 				  	</a>';
 
@@ -64,8 +66,8 @@ class Kelola_distributor extends CI_Controller {
 
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->m_distributor->count_all(),
-							"recordsFiltered" => $this->m_distributor->count_filtered(),
+							"recordsTotal" => $this->m_pasien->count_all(),
+							"recordsFiltered" => $this->m_pasien->count_filtered(),
 							"data" => $data,
 					);
 			//output to json format
@@ -81,9 +83,11 @@ class Kelola_distributor extends CI_Controller {
 
 	    } else {
 	        //kita validasi inputnya dulu
-	        $this->form_validation->set_rules('nama_distributor', 'Distributor', 'trim|required');
+					$this->form_validation->set_rules('nama_pasien', 'Nama pasien', 'trim|required');
+					$this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'trim|required');
 					$this->form_validation->set_rules('alamat', 'Alamat', 'trim|required');
-					$this->form_validation->set_rules('kontak', 'Kontak', 'trim|required');
+					$this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'trim|required');
+					$this->form_validation->set_rules('id_gol_darah', 'ID Golongan Darah', 'trim|required');
 
 	        if ($this->form_validation->run()==FALSE) {
 
@@ -93,7 +97,7 @@ class Kelola_distributor extends CI_Controller {
 
 	        } else {
 
-	            if ($this->m_distributor->create()) {
+	            if ($this->m_pasien->create()) {
 	                $status = 'success';
 	                $msg = "Data jalan berhasil disimpan";
 	            } else {
@@ -108,9 +112,9 @@ class Kelola_distributor extends CI_Controller {
 	}
 
 
-	public function edit_distributor($id)
+	public function edit_pasien($id)
 	{
-		$data = $this->m_distributor->get_by_id($id);
+		$data = $this->m_pasien->get_by_id($id);
 		//$data->dob = ($data->dob == '0000-00-00') ? '' : $data->dob; // if 0000-00-00 set tu empty for datepicker compatibility
 		echo json_encode($data);
 	}
@@ -123,9 +127,11 @@ class Kelola_distributor extends CI_Controller {
 
 	  } else {
 	    //kita validasi inputnya dulu
-			$this->form_validation->set_rules('nama_distributor', 'Distributor', 'trim|required');
+			$this->form_validation->set_rules('nama_pasien', 'Nama pasien', 'trim|required');
+			$this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'trim|required');
 			$this->form_validation->set_rules('alamat', 'Alamat', 'trim|required');
-			$this->form_validation->set_rules('kontak', 'Kontak', 'trim|required');
+			$this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'trim|required');
+			$this->form_validation->set_rules('id_gol_darah', 'ID Golongan Darah', 'trim|required');
 
 	      if ($this->form_validation->run()==false) {
 
@@ -133,9 +139,9 @@ class Kelola_distributor extends CI_Controller {
 	        $msg = validation_errors();
 
 	      } else {
-	          $id = $this->input->post('id_distributor');
+	          $id = $this->input->post('id_pasien');
 
-	          if ($this->m_distributor->update($id)) {
+	          if ($this->m_pasien->update($id)) {
 	              $status = 'success';
 	              $msg = "Data kontak berhasil diupdate";
 	          } else {
@@ -151,7 +157,7 @@ class Kelola_distributor extends CI_Controller {
 
 	public function hapus($id)
 	{
-		$this->m_distributor->delete($id);
+		$this->m_pasien->delete($id);
 		echo json_encode(array("status" => TRUE));
 	}
 

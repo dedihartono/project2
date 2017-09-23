@@ -1,6 +1,5 @@
 <!--LOAD LIBRARY FOR THIS PAGE-->
 <!--DataTables-->
-
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.css')?>">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/datatables/extensions/ColVis/css/dataTables.colVis.min.css')?>">
 <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js')?>"></script>
@@ -48,19 +47,27 @@
 			            <thead>
 			                <tr>
 			                    <th width="3%">NO</th>
-			                    <th width="5%">ID</th>
-			                    <th width="70%">NAMA RUANGAN</th>
-			                    <th width="7%">AKSI</th>
+			                    <th width="3%">ID</th>
+                          <th width="">NAMA PASIEN</th>
+			                    <th width="">JENIS KELAMIN</th>
+                          <th width="">ALAMAT</th>
+                          <th width="">TGL LAHIR</th>
+                          <th width="">GOLONGAN DARAH</th>
+                          <th width="">AKSI</th>
 			                </tr>
 			            </thead>
 			            <tbody>
 			            </tbody>
 			            <tfoot>
 			                <tr>
-			                    <th>NO</th>
-			                    <th>ID</th>
-			                    <th>NAMA RUANGAN</th>
-			                    <th>AKSI</th>
+                        <th width="3%">NO</th>
+                        <th width="3%">ID</th>
+                        <th width="">NAMA PASIEN</th>
+                        <th width="">JENIS KELAMIN</th>
+                        <th width="">ALAMAT</th>
+                        <th width="">TGL LAHIR</th>
+                        <th width="">GOLONGAN DARAH</th>
+                        <th width="">AKSI</th>
 			                </tr>
 			            </tfoot>
 			        </table>
@@ -91,7 +98,7 @@
 	        "order": [], //Initial no order.
 	        // Load data for the table's content from an Ajax source
 	        "ajax": {
-	            "url": "<?php echo site_url('kelola_ruangan/tampil_ruangan')?>",
+	            "url": "<?php echo site_url('kelola_pasien/tampil_pasien')?>",
 	            "type": "POST"
 	        },
 
@@ -99,7 +106,7 @@
 	        "columnDefs": [
 		        {
 
-		            "targets": [ 0, 3], //first and four column / numbering column
+		            "targets": [ 0, 7 ], //first and four column / numbering column
 		            "orderable": false, //set not orderable
 		        },
 		        {
@@ -126,7 +133,7 @@
 		$('.form-group').removeClass('has-error'); // clear error class
 		$('.help-block').empty(); // clear error string
 		$('#modal_form').modal('show'); // show bootstrap modal
-		$('.modal-title').text('Tambah Ruangan'); // Set Title to Bootstrap modal title
+		$('.modal-title').text('Tambah pasien'); // Set Title to Bootstrap modal title
 	}
 
 	function reload_table()
@@ -134,7 +141,7 @@
 	    table.ajax.reload(null,false); //reload datatable ajax
 	}
 
-	function edit(id_ruangan)
+	function edit(id_pasien)
 	{
 	    save_method = 'update';
 	    $('#form')[0].reset(); // reset form on modals
@@ -143,16 +150,20 @@
 
 	    //Ajax Load data from ajax
 	    $.ajax({
-	        url : "<?php echo site_url('kelola_ruangan/edit_ruangan')?>/" + id_ruangan,
+	        url : "<?php echo site_url('kelola_pasien/edit_pasien')?>/" + id_pasien,
 	        type: "GET",
 	        dataType: "JSON",
 	        success: function(data)
 	        {
 
-	            $('[name="id_ruangan"]').val(data.id_ruangan);
-	            $('[name="ruangan"]').val(data.ruangan);
+	            $('[name="id_pasien"]').val(data.id_pasien);
+              $('[name="nama_pasien"]').val(data.nama_pasien);
+              $('[name="jenis_kelamin"]').val(data.jenis_kelamin);
+              $('[name="alamat"]').val(data.alamat);
+              $('[name="tgl_lahir"]').val(data.tgl_lahir);
+              $('[name="id_gol_darah"]').val(data.id_gol_darah);
 	            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-	            $('.modal-title').text('Edit Ruangan'); // Set title to Bootstrap modal title
+	            $('.modal-title').text('Edit pasien'); // Set title to Bootstrap modal title
 
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
@@ -170,9 +181,9 @@
 	    var url;
 
 	    if(save_method == 'add') {
-	        url = "<?php echo site_url('kelola_ruangan/tambah_save')?>";
+	        url = "<?php echo site_url('kelola_pasien/tambah_save')?>";
 	    } else {
-	        url = "<?php echo site_url('kelola_ruangan/edit_save')?>";
+	        url = "<?php echo site_url('kelola_pasien/edit_save')?>";
 	    }
 
 	    // ajax adding data to database
@@ -219,13 +230,13 @@
 	    });
 	}
 
-	function hapus(id_ruangan)
+	function hapus(id_pasien)
 	{
 	    if(confirm('Anda Yakin Menghapus Data Ini?'))
 	    {
 	        // ajax delete data to database
 	        $.ajax({
-	            url : "<?php echo site_url('kelola_ruangan/hapus')?>/"+id_ruangan,
+	            url : "<?php echo site_url('kelola_pasien/hapus')?>/"+id_pasien,
 	            type: "POST",
 	            dataType: "JSON",
 	            success: function(data)
@@ -262,13 +273,47 @@
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
-                    <input type="hidden" value="" name="id_ruangan"/>
+                    <input type="hidden" value="" name="id_pasien"/>
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Nama Ruangan</label>
+                            <label class="control-label col-md-4">Nama pasien</label>
                             <div class="col-md-6">
-                                <input name="ruangan" placeholder="Nama Ruangan..." class="form-control" type="text">
+                                <input name="nama_pasien" placeholder="Nama pasien..." class="form-control" type="text">
                                 <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Jenis Kelamin</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="jenis_kelamin">
+                                  <option value="L">Laki - Laki</option>
+                                  <option value="P">Perempuan</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Alamat</label>
+                            <div class="col-md-6">
+                                <textarea name="alamat" class="form-control"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Tanggal Lahir</label>
+                            <div class="col-md-6">
+                                <input name="tgl_lahir" placeholder="" class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Golongan Darah</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="id_gol_darah">
+                                  <?php foreach ($gol_darah as $row): ?>
+                                    <option value="<?php echo $row->id_gol_darah;?>"><?php echo $row->golongan_darah;?></option>
+                                  <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -30,33 +30,33 @@ class Kelola_ruangan extends CI_Controller {
 
 	public function tampil_ruangan()
 	{
-		
+
 		$list = $this->m_ruangan->get_datatables();
-		
+
 		$data = array();
-		
+
 		$no = $_POST['start'];
-		
+
 		foreach ($list as $ruangan) {
-			
+
 			$no++;
-			
+
 			$row = array();
 			$row[] = $no;
 			$row[] = $ruangan->id_ruangan;
 			$row[] = $ruangan->ruangan;
 
-			$row[] = 
-					'<a class="btn btn-sm btn-primary" href="javascript:void(0)" 
+			$row[] =
+					'<a class="btn btn-sm btn-success" href="javascript:void(0)" 
 						title="Ubah" onclick="edit('."'".$ruangan->id_ruangan."'".')">
 						<i class="glyphicon glyphicon-pencil"></i>
 					</a>
 
-				  	<a class="btn btn-sm btn-danger" href="javascript:void(0)" 
+				  	<a class="btn btn-sm btn-danger" href="javascript:void(0)"
 				  		title="Hapus" onclick="hapus('."'".$ruangan->id_ruangan."'".')">
 				  		<i class="glyphicon glyphicon-trash"></i>
 				  	</a>';
-			
+
 			$data[] = $row;
 		}
 
@@ -72,7 +72,7 @@ class Kelola_ruangan extends CI_Controller {
 
 	public function tambah_save()
 	{
-		    
+
 	    if (!$this->input->is_ajax_request()) {
 
 	        show_404();
@@ -80,15 +80,15 @@ class Kelola_ruangan extends CI_Controller {
 	    } else {
 	        //kita validasi inputnya dulu
 	        $this->form_validation->set_rules('ruangan', 'Ruangan', 'trim|required');
-	        
+
 	        if ($this->form_validation->run()==FALSE) {
-	            
+
 	          $status = 'error';
 	          $msg = validation_errors();
-	         
+
 
 	        } else {
-	            
+
 	            if ($this->m_ruangan->create()) {
 	                $status = 'success';
 	                $msg = "Data jalan berhasil disimpan";
@@ -99,7 +99,7 @@ class Kelola_ruangan extends CI_Controller {
 	        }
 
 	      $this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
-      	
+
       	}
 	}
 
@@ -111,24 +111,24 @@ class Kelola_ruangan extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function edit_save() 
+	public function edit_save()
 	{
 	  if (!$this->input->is_ajax_request()) {
 
 	      show_404();
-	      
+
 	  } else {
 	    //kita validasi inputnya dulu
 	    $this->form_validation->set_rules('ruangan', 'Ruangan', 'trim|required');
-	    
+
 	      if ($this->form_validation->run()==false) {
-	          
+
 	        $status = 'error';
 	        $msg = validation_errors();
 
 	      } else {
 	          $id = $this->input->post('id_ruangan');
-	          
+
 	          if ($this->m_ruangan->update($id)) {
 	              $status = 'success';
 	              $msg = "Data kontak berhasil diupdate";
@@ -139,7 +139,7 @@ class Kelola_ruangan extends CI_Controller {
 	      }
 
 	      $this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
-	  
+
 	    }
 	}
 
