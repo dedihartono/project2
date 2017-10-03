@@ -155,5 +155,10 @@ class Kelola_dokter extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
+	public function test()
+	{
+		echo json_encode(array("status" => TRUE));
+	}
+
 
 }
