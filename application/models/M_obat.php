@@ -4,11 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_obat extends CI_Model {
 
 	public $table = 'tb_obat';
-	public $column_order = array(null, 'id_obat', 'kode_obat','nama_obat', 'id_distributor', 'id_gol_obat', null); //set column field database for datatable orderable
-	public $column_search = array('kode_obat', 'nama_obat', 'id_distributor', 'id_gol_obat'); //set column field database for datatable searchable
+	public $table2 = 'tb_golongan_obat';
+	public $column_order = array(null, 'id_obat', 'kode_obat','nama_obat','golongan_obat', null); //set column field database for datatable orderable
+	public $column_search = array('kode_obat', 'nama_obat', 'golongan_obat'); //set column field database for datatable searchable
 	public $order = array('id_obat' => 'asc'); // default order
 	public $primary_key = 'id_obat';
-
+	public $type = 'LEFT';
 	public function __construct() {
 
 		parent::__construct();
@@ -19,8 +20,9 @@ class M_obat extends CI_Model {
 	private function _get_datatables_query()
 	{
 
+		$this->db->select('*');
 		$this->db->from($this->table);
-
+		$this->db->join($this->table2, 'tb_obat.`id_gol_obat` = tb_golongan_obat.`id_gol_obat`', $this->type);
 
 		$i = 0;
 
@@ -89,7 +91,6 @@ class M_obat extends CI_Model {
 	$data = [
 		'kode_obat'  => $this->input->post('kode_obat'),
 		'nama_obat'  => $this->input->post('nama_obat'),
-		'id_distributor'  => $this->input->post('id_distributor'),
 		'id_gol_obat'  => $this->input->post('id_gol_obat'),
 	];
 
@@ -113,7 +114,6 @@ class M_obat extends CI_Model {
 		$data = [
 			'kode_obat'  => $this->input->post('kode_obat'),
 			'nama_obat'  => $this->input->post('nama_obat'),
-			'id_distributor'  => $this->input->post('id_distributor'),
 			'id_gol_obat'  => $this->input->post('id_gol_obat'),
 		 ];
 
@@ -135,5 +135,17 @@ class M_obat extends CI_Model {
       return $query;
 
   }
+
+	public function get_gol_obat() {
+		$query = $this->db->get('tb_golongan_obat');
+
+		return $query->result();
+	}
+
+	public function get_obat() {
+		$query = $this->db->get('tb_obat');
+
+		return $query->result();
+	}
 
 }

@@ -42,10 +42,10 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+
     <!-- jQuery 2.1.4 -->
     <script src="<?php echo base_url();?>assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    
+
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -129,6 +129,7 @@
     <script src="<?php echo base_url();?>assets/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- datepicker -->
     <script src="<?php echo base_url();?>assets/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="<?php echo base_url();?>assets/plugins/datepicker/locales/bootstrap-datepicker.id.js"></script>
     <!-- Bootstrap WYSIHTML5 -->
     <script src="<?php echo base_url();?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <!-- Slimscroll -->
@@ -140,5 +141,17 @@
 
     <!-- AdminLTE for demo purposes -->
     <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
+    <script type="text/javascript">
+      //datepicker
+      $('.datepicker').datepicker({
+          autoclose: true,
+          format: "yyyy-mm-dd",
+          todayHighlight: true,
+          orientation: "top auto",
+          todayBtn: true,
+          todayHighlight: true,
+          language:"id",
+      });
+    </script>
   </body>
 </html>

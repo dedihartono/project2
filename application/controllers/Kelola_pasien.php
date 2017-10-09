@@ -48,7 +48,7 @@ class Kelola_pasien extends CI_Controller {
 			$row[] = $pasien->jenis_kelamin;
 			$row[] = $pasien->alamat;
 			$row[] = $pasien->tgl_lahir;
-			$row[] = $pasien->id_gol_darah;
+			$row[] = $pasien->golongan_darah;
 
 			$row[] =
 					'<a class="btn btn-sm btn-success" href="javascript:void(0)"
@@ -155,11 +155,10 @@ class Kelola_pasien extends CI_Controller {
 	    }
 	}
 
-	public function hapus($id)
+		public function hapus($id)
 	{
 		$this->m_pasien->delete($id);
 		echo json_encode(array("status" => TRUE));
 	}
-
 
 }

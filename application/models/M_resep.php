@@ -1,13 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_distributor extends CI_Model {
+class M_resep extends CI_Model {
 
-	public $table = 'tb_distributor';
-	public $column_order = array(null, 'id_distributor','nama_distributor', 'kontak', 'alamat', null); //set column field database for datatable orderable
-	public $column_search = array('nama_distributor', 'kontak', 'alamat'); //set column field database for datatable searchable
-	public $order = array('id_distributor' => 'asc'); // default order
-	public $primary_key = 'id_distributor';
+  public $table  = 'tb_resep_dokter';
+	public $table2 = 'tb_pasien';
+	public $table3 = 'tb_dokter';
+	public $table4 = 'tb_ruangan';
+	public $table5 = 'tb_obat';
+	public $table6 = 'tb_status';
+
+	public $column_order = array(null, 'id_resep_dokter', 'tanggal','id_pasien','id_dokter', 'id_ruangan', 'id_obat', 'id_status', null); //set column field database for datatable orderable
+	public $column_search = array('tanggal','id_pasien','id_dokter', 'id_ruangan', 'id_obat', 'id_status'); //set column field database for datatable searchable
+	public $order = array('tanggal' => 'asc'); // default order
+	public $primary_key = 'id_pasien';
 
 	public function __construct() {
 
@@ -19,9 +25,12 @@ class M_distributor extends CI_Model {
 	private function _get_datatables_query()
 	{
 
-		$this->db->from($this->table);
-
-
+    $this->db->select('*');
+    $this->db->from($this->table);
+    $this->db->join($this->table2, 'tb_resep_dokter.`id_pasien` = tb_pasien.`id_pasien`', 'LEFT');
+    $this->db->join($this->table3, 'tb_pasien.`id_dokter` = tb_dokter.`id_dokter`', 'LEFT');
+    $this->db->join($this->table5, 'tb_resep_dokter.`id_obat` = tb_obat.`id_obat`', 'LEFT');
+    $this->db->join($this->table6, 'tb_resep_dokter.`id_status` = tb_status.`id_status`', 'LEFT');
 		$i = 0;
 
 		foreach ($this->column_search as $item) // loop column
@@ -87,9 +96,9 @@ class M_distributor extends CI_Model {
 	{
 
 	$data = [
-		'nama_distributor'  => $this->input->post('nama_distributor'),
-		'kontak'  => $this->input->post('kontak'),
-		'alamat'  => $this->input->post('alamat'),
+		'tanggal'     => $this->input->post('tanggal'),
+    'id_pasien'   => $this->input->post('id_pasien'),
+		'id_obat'     => $this->input->post('id_obat'),
 	];
 
 	       $query = $this->db->insert($this->table, $data);
@@ -110,9 +119,11 @@ class M_distributor extends CI_Model {
 	{
 
 		$data = [
-			'nama_distributor'  => $this->input->post('nama_distributor'),
-			'kontak'  => $this->input->post('kontak'),
+			'nama_pasien'  => $this->input->post('nama_pasien'),
+			'jenis_kelamin'  => $this->input->post('jenis_kelamin'),
 			'alamat'  => $this->input->post('alamat'),
+			'tgl_lahir'  => $this->input->post('tgl_lahir'),
+			'id_gol_darah'  => $this->input->post('id_gol_darah'),
 		 ];
 
 		$this->db->where($this->primary_key, $id);
@@ -133,5 +144,19 @@ class M_distributor extends CI_Model {
       return $query;
 
   }
+
+	public function get_gol_darah()
+	{
+		$query = $this->db->get($this->table2);
+
+			return $query->result();
+	}
+
+  public function get_status()
+	{
+		$query = $this->db->get($this->table6);
+
+			return $query->result();
+	}
 
 }
