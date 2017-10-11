@@ -51,8 +51,7 @@
 			                    <th width="3%">ID</th>
                           <th width="">KODE OBAT</th>
                           <th width="">NAMA OBAT</th>
-			                    <th width="">ID DISTRIBUTOR</th>
-                          <th width="">ID GOL OBAT</th>
+			                    <th width="15%">GOL OBAT</th>
                           <th width="9%">AKSI</th>
 			                </tr>
 			            </thead>
@@ -64,8 +63,7 @@
                         <th width="3%">ID</th>
                         <th width="">KODE OBAT</th>
                         <th width="">NAMA OBAT</th>
-                        <th width="">ID DISTRIBUTOR</th>
-                        <th width="">ID GOL OBAT</th>
+                        <th width="">GOL OBAT</th>
                         <th width="9%">AKSI</th>
 			                </tr>
 			            </tfoot>
@@ -105,7 +103,7 @@
 	        "columnDefs": [
 		        {
 
-		            "targets": [ 0, 6], //first and four column / numbering column
+		            "targets": [ 0, 5], //first and four column / numbering column
 		            "orderable": false, //set not orderable
 		        },
 		        {
@@ -288,16 +286,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-4">ID Distributor</label>
-                            <div class="col-md-6">
-                                <input name="id_distributor" placeholder="PT XXX" class="form-control" type="text">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="control-label col-md-4">Golongan Obat</label>
                             <div class="col-md-6">
-                                <input name="id_gol_obat" placeholder="Golongan Obat..." class="form-control" type="text">
+                                <select class="form-control" name="id_gol_obat">
+                                  <?php foreach ($gol_obat as $row): ?>
+                                    <option value="<?php echo $row->id_gol_obat;?>"><?php echo $row->golongan_obat;?></option>
+                                  <?php endforeach; ?>
+                                </select>
                                 <span class="help-block"></span>
                             </div>
                         </div>

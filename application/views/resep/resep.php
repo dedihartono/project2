@@ -1,13 +1,12 @@
 <!--LOAD LIBRARY FOR THIS PAGE-->
 <!--DataTables-->
-
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.css')?>">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/datatables/extensions/ColVis/css/dataTables.colVis.min.css')?>">
+
 <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js')?>"></script>
 <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js')?>"></script>
 
 <script src="<?php echo base_url('assets/plugins/datatables/extensions/ColVis/js/dataTables.colVis.min.js')?>"></script>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -49,9 +48,11 @@
 			                <tr>
 			                    <th width="3%">NO</th>
 			                    <th width="3%">ID</th>
-                          <th width="">NAMA DISTRIBUTOR</th>
-                          <th width="">KONTAK</th>
-			                    <th width="">ALAMAT</th>
+                          <th width="10%">TANGGAL</th>
+			                    <th width="">NAMA PASIEN</th>
+                          <th width="">NAMA DOKTER</th>
+                          <th width="">OBAT</th>
+                          <th width="12%">STATUS</th>
                           <th width="9%">AKSI</th>
 			                </tr>
 			            </thead>
@@ -59,12 +60,14 @@
 			            </tbody>
 			            <tfoot>
 			                <tr>
-			                    <th>NO</th>
-			                    <th>ID</th>
-			                    <th>NAMA DISTRIBUTOR</th>
-                          <th>KONTAK</th>
-                          <th>ALAMAT</th>
-			                    <th>AKSI</th>
+                        <th width="3%">NO</th>
+                        <th width="3%">ID</th>
+                        <th width="">TANGGAL</th>
+                        <th width="">NAMA PASIEN</th>
+                        <th width="">NAMA DOKTER</th>
+                        <th width="">OBAT</th>
+                        <th width="">STATUS</th>
+                        <th width="">AKSI</th>
 			                </tr>
 			            </tfoot>
 			        </table>
@@ -95,7 +98,7 @@
 	        "order": [], //Initial no order.
 	        // Load data for the table's content from an Ajax source
 	        "ajax": {
-	            "url": "<?php echo site_url('kelola_distributor/tampil_distributor')?>",
+	            "url": "<?php echo site_url('Kelola_resep/tampil_resep')?>",
 	            "type": "POST"
 	        },
 
@@ -103,7 +106,7 @@
 	        "columnDefs": [
 		        {
 
-		            "targets": [ 0, 5], //first and four column / numbering column
+		            "targets": [ 0 ], //first and four column / numbering column
 		            "orderable": false, //set not orderable
 		        },
 		        {
@@ -112,7 +115,7 @@
 		        },
 		        {
 
-		            "targets": [ 1 ], //two column / numbering column
+		            "targets": [ 1, 4 ], //two column / numbering column
 		            "visible": false, //set visible
 		        },
 	        ],
@@ -129,8 +132,9 @@
 		$('#form')[0].reset(); // reset form on modals
 		$('.form-group').removeClass('has-error'); // clear error class
 		$('.help-block').empty(); // clear error string
+    $('#status').hide();
 		$('#modal_form').modal('show'); // show bootstrap modal
-		$('.modal-title').text('Tambah Distributor'); // Set Title to Bootstrap modal title
+		$('.modal-title').text('Tambah resep'); // Set Title to Bootstrap modal title
 	}
 
 	function reload_table()
@@ -138,27 +142,30 @@
 	    table.ajax.reload(null,false); //reload datatable ajax
 	}
 
-	function edit(id_distributor)
+	function edit(id_resep)
 	{
 	    save_method = 'update';
 	    $('#form')[0].reset(); // reset form on modals
 	    $('.form-group').removeClass('has-error'); // clear error class
 	    $('.help-block').empty(); // clear error string
+      $('#status').show();
 
 	    //Ajax Load data from ajax
 	    $.ajax({
-	        url : "<?php echo site_url('kelola_distributor/edit_distributor')?>/" + id_distributor,
+	        url : "<?php echo site_url('kelola_resep/edit_resep')?>/" + id_resep,
 	        type: "GET",
 	        dataType: "JSON",
 	        success: function(data)
 	        {
 
-	            $('[name="id_distributor"]').val(data.id_distributor);
-	            $('[name="nama_distributor"]').val(data.nama_distributor);
-              $('[name="kontak"]').val(data.kontak);
+	            $('[name="id_resep"]').val(data.id_resep);
+              $('[name="nama_resep"]').val(data.nama_resep);
+              $('[name="jenis_kelamin"]').val(data.jenis_kelamin);
               $('[name="alamat"]').val(data.alamat);
+              $('[name="tgl_lahir"]').val(data.tgl_lahir);
+              $('[name="id_gol_darah"]').val(data.id_gol_darah);
 	            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-	            $('.modal-title').text('Edit Distributor'); // Set title to Bootstrap modal title
+	            $('.modal-title').text('Edit resep'); // Set title to Bootstrap modal title
 
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
@@ -176,9 +183,9 @@
 	    var url;
 
 	    if(save_method == 'add') {
-	        url = "<?php echo site_url('kelola_distributor/tambah_save')?>";
+	        url = "<?php echo site_url('kelola_resep/tambah_save')?>";
 	    } else {
-	        url = "<?php echo site_url('kelola_distributor/edit_save')?>";
+	        url = "<?php echo site_url('kelola_resep/edit_save')?>";
 	    }
 
 	    // ajax adding data to database
@@ -193,7 +200,7 @@
 	            if(data.status!='error') //if success close modal and reload ajax table
 	            {
 	                $('#modal_form').modal('hide');
-	                alert('Data Berhasil disimpan/diubah!');
+	                alert(data.msg);
 	                reload_table();
 	            }
 	            else
@@ -225,13 +232,13 @@
 	    });
 	}
 
-	function hapus(id_distributor)
+	function hapus(id_resep)
 	{
 	    if(confirm('Anda Yakin Menghapus Data Ini?'))
 	    {
 	        // ajax delete data to database
 	        $.ajax({
-	            url : "<?php echo site_url('kelola_distributor/hapus')?>/"+id_distributor,
+	            url : "<?php echo site_url('kelola_resep/hapus')?>/"+id_resep,
 	            type: "POST",
 	            dataType: "JSON",
 	            success: function(data)
@@ -250,10 +257,6 @@
 	    }
 	}
 
-
-
-
-
 </script>
 
 <!-- Bootstrap modal -->
@@ -268,26 +271,46 @@
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
-                    <input type="hidden" value="" name="id_distributor"/>
+                    <input type="hidden" value="" name="id_resep"/>
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Nama Distributor</label>
-                            <div class="col-md-6">
-                                <input name="nama_distributor" placeholder="Nama Distributor..." class="form-control" type="text">
+                            <label class="control-label col-md-4">Tanggal</label>
+                            <div class="col-md-3">
+                                <input name="tanggal" placeholder="" class="form-control datepicker" type="date">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-4">No Kontak</label>
+                            <label class="control-label col-md-4">Pasien</label>
                             <div class="col-md-6">
-                                <input name="kontak" placeholder="Cth. 083 824 xxx xxx" class="form-control" type="text">
+                              <select class="form-control" name="id_pasien">
+                                <?php foreach ($pasien as $row): ?>
+                                  <option value="<?php echo $row->id_pasien;?>"><?php echo $row->nama_pasien;?></option>
+                                <?php endforeach; ?>
+                              </select>
                                 <span class="help-block"></span>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="control-label col-md-4">Alamat</label>
+                            <label class="control-label col-md-4">Obat</label>
                             <div class="col-md-6">
-                                <textarea name="alamat" class="form-control"></textarea>
+                              <select class="form-control" name="id_obat">
+                                <?php foreach ($obat as $row): ?>
+                                  <option value="<?php echo $row->id_obat;?>"><?php echo $row->nama_obat;?></option>
+                                <?php endforeach; ?>
+                              </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="status">
+                            <label class="control-label col-md-4">Status</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="id_status">
+                                  <?php foreach ($status as $row): ?>
+                                    <option value="<?php echo $row->id_status;?>"><?php echo $row->status;?></option>
+                                  <?php endforeach; ?>
+                                </select>
                                 <span class="help-block"></span>
                             </div>
                         </div>

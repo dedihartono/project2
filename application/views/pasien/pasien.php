@@ -33,7 +33,7 @@
 		            <div>
 			            <button class="btn btn-primary" title="tambah data" onclick="tambah()">
 			                <i class="fa fa-plus"></i> Tambah Data
-			            </button>
+			            </butaton>
 			            <button class="btn btn-default" title="tambah data" onclick="reload_table()">
 			                <i class="fa fa-refresh"></i> Refresh
 			            </button>
@@ -49,11 +49,11 @@
 			                    <th width="3%">NO</th>
 			                    <th width="3%">ID</th>
                           <th width="">NAMA PASIEN</th>
-			                    <th width="">JENIS KELAMIN</th>
+			                    <th width="7%">KELAMIN</th>
                           <th width="">ALAMAT</th>
                           <th width="">TGL LAHIR</th>
-                          <th width="">GOLONGAN DARAH</th>
-                          <th width="">AKSI</th>
+                          <th width="12%">GOL. DARAH</th>
+                          <th width="9%">AKSI</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -63,10 +63,10 @@
                         <th width="3%">NO</th>
                         <th width="3%">ID</th>
                         <th width="">NAMA PASIEN</th>
-                        <th width="">JENIS KELAMIN</th>
+                        <th width="">KELAMIN</th>
                         <th width="">ALAMAT</th>
                         <th width="">TGL LAHIR</th>
-                        <th width="">GOLONGAN DARAH</th>
+                        <th width="">GOL. DARAH</th>
                         <th width="">AKSI</th>
 			                </tr>
 			            </tfoot>

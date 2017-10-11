@@ -16,13 +16,14 @@ class Kelola_obat extends CI_Controller {
 
 	public function tampil()
 	{
+
 		$data = [
-			'title' 		=> 'Kelola Obat',
-			'titlebox' 		=> 'Data Obat',
+			'title' 				=> 'Kelola Obat',
+			'titlebox' 			=> 'Data Obat',
 			'breadcrumb01' 	=> 'Kelola Obat',
 			'breadcrumb02' 	=> 	anchor('obat', 'Tampil Obat'),
-
-			'konten'		=> 'obat/obat',
+			'gol_obat' 			=>  $this->m_obat->get_gol_obat(),
+			'konten'				=> 'obat/obat',
 		];
 
 		$this->load->view('template_admin', $data);
@@ -46,8 +47,7 @@ class Kelola_obat extends CI_Controller {
 			$row[] = $obat->id_obat;
 			$row[] = $obat->kode_obat;
 			$row[] = $obat->nama_obat;
-			$row[] = $obat->id_distributor;
-			$row[] = $obat->id_gol_obat;
+			$row[] = $obat->golongan_obat;
 
 			$row[] =
 					'<a class="btn btn-sm btn-success" href="javascript:void(0)"
@@ -84,7 +84,6 @@ class Kelola_obat extends CI_Controller {
 	        //kita validasi inputnya dulu
 					$this->form_validation->set_rules('kode_obat', 'Kode Obat', 'trim|required');
 					$this->form_validation->set_rules('nama_obat', 'Nama Obat', 'trim|required');
-					$this->form_validation->set_rules('id_distributor', 'Distributor', 'trim|required');
 					$this->form_validation->set_rules('id_gol_obat', 'Golongan Obat', 'trim|required');
 
 	        if ($this->form_validation->run()==FALSE) {
@@ -127,7 +126,6 @@ class Kelola_obat extends CI_Controller {
 	    //kita validasi inputnya dulu
 			$this->form_validation->set_rules('kode_obat', 'Kode Obat', 'trim|required');
 			$this->form_validation->set_rules('nama_obat', 'Nama Obat', 'trim|required');
-			$this->form_validation->set_rules('id_distributor', 'Distributor', 'trim|required');
 			$this->form_validation->set_rules('id_gol_obat', 'Golongan Obat', 'trim|required');
 
 	      if ($this->form_validation->run()==false) {

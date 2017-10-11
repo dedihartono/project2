@@ -5,8 +5,8 @@ class M_pasien extends CI_Model {
 
 	public $table = 'tb_pasien';
 	public $table2 = 'tb_golongan_darah';
-	public $column_order = array(null, 'id_pasien', 'nama_pasien', 'jenis_kelamin', 'alamat', 'tgl_lahir', 'id_gol_darah', null); //set column field database for datatable orderable
-	public $column_search = array('nama_pasien', 'jenis_kelamin', 'alamat', 'tgl_lahir', 'id_gol_darah'); //set column field database for datatable searchable
+	public $column_order = array(null, 'id_pasien', 'nama_pasien', 'jenis_kelamin', 'alamat', 'tgl_lahir', 'golongan_darah', null); //set column field database for datatable orderable
+	public $column_search = array('nama_pasien', 'jenis_kelamin', 'alamat', 'tgl_lahir', 'golongan_darah' ); //set column field database for datatable searchable
 	public $order = array('id_pasien' => 'asc'); // default order
 	public $primary_key = 'id_pasien';
 
@@ -20,8 +20,9 @@ class M_pasien extends CI_Model {
 	private function _get_datatables_query()
 	{
 
-		$this->db->from($this->table);
-
+		$this->db->select('*');
+		$this->db->from('tb_pasien AS psn');
+		$this->db->join('tb_golongan_darah AS gd', 'psn.`id_gol_darah` = gd.`id_gol_darah`', 'LEFT');
 
 		$i = 0;
 
@@ -142,6 +143,13 @@ class M_pasien extends CI_Model {
 	public function get_gol_darah()
 	{
 		$query = $this->db->get($this->table2);
+
+			return $query->result();
+	}
+
+	public function get_pasien()
+	{
+		$query = $this->db->get($this->table);
 
 			return $query->result();
 	}
