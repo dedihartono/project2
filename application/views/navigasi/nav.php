@@ -30,17 +30,11 @@
     </a>
   </li>
   <li class="treeview">
-    <a href="#">
-      <i class="fa fa-table"></i> <span>Master</span>
-      <i class="fa fa-angle-left pull-right"></i>
-    </a>
-    <ul class="treeview-menu">
-      <li><a href="<?php echo base_url();?>ruangan"><i class="fa fa-circle-o"></i> Kelola Ruangan</a></li>
-      <li><a href="<?php echo base_url();?>obat"><i class="fa fa-circle-o"></i> Kelola Obat</a></li>
-      <li><a href="<?php echo base_url();?>dokter"><i class="fa fa-circle-o"></i> Kelola Dokter</a></li>
-      <li><a href="<?php echo base_url();?>pasien"><i class="fa fa-circle-o"></i> Kelola Pasien</a></li>
-      <li><a href="<?php echo base_url();?>distributor"><i class="fa fa-circle-o"></i> Kelola Distributor</a></li>
-    </ul>
+    <li><a href="<?php echo base_url();?>ruangan"><i class="fa fa-circle-o"></i> Kelola Ruangan</a></li>
+    <li><a href="<?php echo base_url();?>obat"><i class="fa fa-circle-o"></i> Kelola Obat</a></li>
+    <li><a href="<?php echo base_url();?>dokter"><i class="fa fa-circle-o"></i> Kelola Dokter</a></li>
+    <li><a href="<?php echo base_url();?>pasien"><i class="fa fa-circle-o"></i> Kelola Pasien</a></li>
+    <li><a href="<?php echo base_url();?>resep"><i class="fa fa-circle-o"></i> Kelola Resep</a></li>
   </li>
 <?php } ; ?>
 </ul>

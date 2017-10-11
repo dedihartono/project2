@@ -33,7 +33,7 @@
 		            <div>
 			            <button class="btn btn-primary" title="tambah data" onclick="tambah()">
 			                <i class="fa fa-plus"></i> Tambah Data
-			            </button>
+			            </butaton>
 			            <button class="btn btn-default" title="tambah data" onclick="reload_table()">
 			                <i class="fa fa-refresh"></i> Refresh
 			            </button>
