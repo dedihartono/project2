@@ -148,4 +148,10 @@ class M_obat extends CI_Model {
 		return $query->result();
 	}
 
+	public function get_obat_name($data)
+	{
+		$this->db->get('tb_obat');
+		$this->db->like('nama_obat', $data);
+	}
+
 }

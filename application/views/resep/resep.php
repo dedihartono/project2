@@ -7,6 +7,9 @@
 <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js')?>"></script>
 
 <script src="<?php echo base_url('assets/plugins/datatables/extensions/ColVis/js/dataTables.colVis.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/plugins/autocomplete/jquery.autocomplete.min.js')?>">
+
+</script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -257,6 +260,13 @@
 	    }
 	}
 
+  $('#autocomplete').autocomplete({
+      serviceUrl: '<?php echo base_url();?>kelola_resep/get_obat',
+      onSelect: function (suggestion) {
+          alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+      }
+  });
+
 </script>
 
 <!-- Bootstrap modal -->
@@ -291,7 +301,6 @@
                                 <span class="help-block"></span>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="control-label col-md-4">Obat</label>
                             <div class="col-md-6">
