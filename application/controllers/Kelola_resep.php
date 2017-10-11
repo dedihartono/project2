@@ -30,6 +30,12 @@ class Kelola_resep extends CI_Controller {
 		$this->load->view('template_admin', $data);
 	}
 
+	public function get_obat($data)
+	{
+		$data = $this->m_obat->get_obat_name($data);
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('value'=>$data)));
+	}
+
 	public function tampil_resep()
 	{
 
